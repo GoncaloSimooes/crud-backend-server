@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/users", userRoute);
 
 app.get("/", (req, res) => {
-  res.send("Hello from here Node API server");
+  res.send("Hello from Node API server");
 });
 
 mongoose
