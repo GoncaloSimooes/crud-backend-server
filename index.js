@@ -1,14 +1,18 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const User = require("./models/user.model.js");
-const userRoute = require("./routes/user.route.js");
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import userRoute from "./routes/user.route.js";
+import User from "./models/user.model.js";
+
+dotenv.config();
+
 const app = express();
 
-//middleware
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-//routes
+// Rotas
 app.use("/api/users", userRoute);
 
 app.get("/", (req, res) => {
@@ -16,15 +20,13 @@ app.get("/", (req, res) => {
 });
 
 mongoose
-  .connect(
-    "mongodb+srv://goncalovr9:dz2CPUohusOQW6fb@backenddb.5ml9j.mongodb.net/NODE-API?retryWrites=true&w=majority&appName=BackendDB"
-  )
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("Connected to database!");
-    app.listen(3000, () => {
-      console.log("server is running onport 3000");
+    app.listen(process.env.PORT || 3001, () => {
+      console.log(`Server is running on port ${process.env.PORT || 3001}`);
     });
   })
-  .catch(() => {
-    console.log("Connection failed");
+  .catch((error) => {
+    console.log("Connection failed", error);
   });
